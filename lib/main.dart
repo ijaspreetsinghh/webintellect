@@ -1,3 +1,5 @@
+import 'package:http/http.dart' as http;
+
 import 'justARawPage.dart';
 import 'package:flutter/material.dart';
 import 'package:webintellect/constants.dart';
@@ -22,6 +24,17 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  Future<dynamic> getData() async {
+    try {
+      http.Response response = await http.get(Uri.https('webintellect.co.uk',
+          'open_gov_app/get-all-countries.php', {'oga_countries': ''}));
+      print(response);
+      return response;
+    } catch (e) {
+      throw (e);
+    }
+  }
+
   final List countryList = [
     'Australia',
     'China',
@@ -34,6 +47,11 @@ class _HomePageState extends State<HomePage> {
   ];
 
   List _selectedCountry = [];
+  @override
+  void initState() {
+    getData();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
